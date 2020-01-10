@@ -19,13 +19,17 @@ public class Game {
 		y = scanner.nextInt();
 		
 		Board board = new Board(x,y,5);
-		board.printEmpty();
+		board.createFields();
+		board.printBoard();
 		println("Enter X");
+		
 		x = scanner.nextInt();
 		println("Enter Y");
 		y = scanner.nextInt();
 		
-		board.fillMines(x-1, y-1);	
+		
+		
+		board.randomMines(x-1, y-1);
 		board.fillFields();
 		result = board.checkField(x-1, y-1);
 		board.printBoard();
@@ -51,13 +55,11 @@ public class Game {
 		
 	
 		println("-----------");
-		board.printBoardTest(); 
+		board.printBoard(); 
 		scanner.close();
 	}
 	
-	static private void print(String string) {
-		System.out.print(string);
-	}
+
 	static private void println(String string) {
 		System.out.println(string);
 	}

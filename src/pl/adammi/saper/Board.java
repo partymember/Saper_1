@@ -35,7 +35,7 @@ public class Board {
 			
 		
 	}
-	public void fillMines(int startFieldX, int startFieldY) {
+	public void randomMines(int startFieldX, int startFieldY) {
 		int temp;
 		Integer[] mineXY = new Integer[2];
 		Random rand = new Random();
@@ -62,17 +62,37 @@ public class Board {
 		}
 		
 	}
+	public void createFields() {
+		Integer[] temp = new Integer[2];
+		for(int y = 0; y < sizeY; y++) {
+			for(int x = 0; x < sizeX; x++) {
+				temp[0] = x;
+				temp[1] = y;
+				fields[x][y] = new Field();
+				/*if(checkMineExists(temp))
+					fields[x][y] = new Field(x,y,-1);
+				else {
+					fields[x][y] = new Field(x,y,countMines(x,y));
+				}
+				*/
+				
+			}
+		}
+	}
+	
 	public void fillFields() {
 		Integer[] temp = new Integer[2];
 		for(int y = 0; y < sizeY; y++) {
 			for(int x = 0; x < sizeX; x++) {
 				temp[0] = x;
 				temp[1] = y;
+				
 				if(checkMineExists(temp))
-					fields[x][y] = new Field(x,y,-1);
+					fields[x][y].setField(-1);
 				else {
-					fields[x][y] = new Field(x,y,countMines(x,y));
+					fields[x][y].setField(countMines(x,y));
 				}
+				
 				
 			}
 		}
@@ -112,15 +132,7 @@ public class Board {
 			System.out.print("\n");
 		}
 	}
-	public void printEmpty() {
-		for(int y = 0; y < sizeY; y++) {
-			for(int x = 0; x < sizeX; x++) {
-				System.out.print("x\t");
-			}
-			System.out.print("\n");
-		}
-	}
-	
+		
 	public int checkField(int x, int y) {
 		int val;
 		val = fields[x][y].getValue();
@@ -137,6 +149,11 @@ public class Board {
 			for(int x = 0; x < sizeX; x++) {
 				if(!fields[x][y].isChecked() && fields[x][y].getValue()>=0)
 					return 0;
+			}
+		}
+		for(int y = 0; y < sizeY; y++) {
+			for(int x = 0; x < sizeX; x++) {
+				fields[x][y].setCheck();
 			}
 		}
 		return 1;
@@ -163,8 +180,7 @@ public class Board {
 						
 				}
 			}
-		}while(repeat);
-		
+		}while(repeat);	
 	}
 
 	private int countMines(int positionX, int positionY) {
