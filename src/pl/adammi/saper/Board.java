@@ -26,8 +26,10 @@ public class Board {
 		minesCount = mines;
 		
 		fieldsCount = sizeX*sizeY;
-		if(minesCount > fieldsCount-1)
+		if(minesCount > fieldsCount-1) {
 			System.out.println("Too many mines - initialization failure!");
+			throw new IllegalArgumentException();
+		}
 		else {
 			fields = new Field [sizeX] [sizeY];
 			System.out.println("Board " + sizeX + "x" + sizeY + " filled with " + minesCount + " mines intialised!");
@@ -45,37 +47,23 @@ public class Board {
 		{
 			temp = rand.nextInt(fieldsCount);
 			mineXY = minePosToXY(temp);
-			//System.out.println("fillMines: generated mine position " + mineXY[0] + "." + mineXY[1]);
 			if(mineXY[0] == startFieldX && mineXY[1] == startFieldY){
-				//System.out.println("fillMines: generated mine position is start position -- skip");
 				i--;
 			}
 			else if(checkMineExists(mineXY)) {
-				//System.out.println("fillMines: generated mine position is already used -- skip");
 				i--;
 			}
 			else {
-				//System.out.println("fillMines: generated mine position is OK -- use");
 				minesArray.add(mineXY);
-				System.out.println("fillMines: generated mine position " + mineXY[0] + "." + mineXY[1]);
+				//System.out.println("fillMines: generated mine position " + mineXY[0] + "." + mineXY[1]);
 			}		
 		}
 		
 	}
 	public void createFields() {
-		Integer[] temp = new Integer[2];
 		for(int y = 0; y < sizeY; y++) {
 			for(int x = 0; x < sizeX; x++) {
-				temp[0] = x;
-				temp[1] = y;
 				fields[x][y] = new Field();
-				/*if(checkMineExists(temp))
-					fields[x][y] = new Field(x,y,-1);
-				else {
-					fields[x][y] = new Field(x,y,countMines(x,y));
-				}
-				*/
-				
 			}
 		}
 	}
@@ -106,33 +94,13 @@ public class Board {
 				if(temp != -1)
 					System.out.print(temp + "\t");
 				else
-					System.out.print("x\t");
+					System.out.print("!\t");
 			}
 			System.out.print("\n");
 		}
 	}
-	public void printBoard() {
-		int temp;
-		for(int y = 0; y < sizeY; y++) {
-			for(int x = 0; x < sizeX; x++) {
-				if(fields[x][y].isChecked()) {
-					temp = fields[x][y].getValue();
-					if(temp != -1)
-						System.out.print(temp + "\t");
-					else
-						System.out.print("!\t");
-				}
-				else if(fields[x][y].isFlag()) {
-					System.out.print("f\t");
-				}
-				else {
-					System.out.print("x\t");
-				}
-			}
-			System.out.print("\n");
-		}
-	}
-		
+	
+	
 	public int checkField(int x, int y) {
 		int val;
 		val = fields[x][y].getValue();
@@ -159,6 +127,28 @@ public class Board {
 		return 1;
 	}
 	
+	public int getFieldValue(int x, int y)
+	{
+		return fields[x][y].getValue();
+	}
+	
+	public boolean getFieldFlag(int x, int y)
+	{
+		return fields[x][y].isFlag();
+	}
+	
+	public boolean getFieldChecked(int x, int y)
+	{
+		return fields[x][y].isChecked();
+	}
+	
+	public int getSizeX() {
+		return sizeX;
+	}
+	
+	public int getSizeY() {
+		return sizeY;
+	}
 	private void checkZeros() {
 		boolean repeat;
 		do {
