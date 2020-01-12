@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 public class SaperTextInterface implements SaperInterface {
+	static final String checkCommand = new String("check");
+	static final String flagCommand = new String("flag");
 	Scanner scanner;
 	Pattern pattern;
 	Matcher matcher;
@@ -14,8 +16,29 @@ public class SaperTextInterface implements SaperInterface {
 	
 	@Override
 	public Integer[] getXY() {
-		// TODO Auto-generated method stub
-		return null;
+		Integer[] command = new Integer[3];
+
+		pattern = Pattern.compile("(\\w+)\\s+(\\d+)\\.(\\d+)");
+		String string = new String();
+		do {
+			println("Enter command: (example 'flag 3.3' or 'check 3.3)");
+			string = scanner.nextLine();
+		}while(!pattern.matcher(string).matches());
+		matcher = pattern.matcher(string);
+		matcher.matches();
+		
+		command[0] = Integer.parseInt(matcher.group(2));
+		command[1] = Integer.parseInt(matcher.group(3));
+		if(flagCommand.compareTo(matcher.group(1)) == 0)
+			command[2] = 1;
+		else if(checkCommand.compareTo(matcher.group(1)) == 0)
+			command[2] = 2;
+		else
+			command[2] = 0;
+		
+		println("x.y = " + command[0] + "." + command[1] + " command " + matcher.group(1));
+		
+		return command;
 	}
 	
 	@Override

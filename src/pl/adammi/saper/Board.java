@@ -100,6 +100,9 @@ public class Board {
 		}
 	}
 	
+	public void flagField(int x, int y) {
+		fields[x][y].setFlag();
+	}
 	
 	public int checkField(int x, int y) {
 		int val;

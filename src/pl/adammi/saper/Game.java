@@ -15,16 +15,18 @@ public class Game {
 		boolean ret = false;
 		
 		Integer[] settings = new Integer[3];
+		Integer[] command = new Integer[3];
 		Scanner scanner = new Scanner(System.in);
 		
 		SaperInterface iface = new SaperTextInterface();
 		iface.initialize();
+		
 		do {
 			settings = iface.getSettings();
 			ret = checkSettings(settings);
 			//TODO send message			
 		}while(!ret);
-
+		
 /*		
 		
 		println("***************");
@@ -36,33 +38,46 @@ public class Game {
 		y = scanner.nextInt();
 	*/	
 		
-		
-		
-		
-		
 		Board board = new Board(settings[0],settings[1],settings[2]);
 		board.createFields();
 		iface.drawBoard(board);
-		
+		/*
 		println("Enter X");	
 		x = scanner.nextInt();
 		println("Enter Y");
 		y = scanner.nextInt();
-	
-		board.randomMines(x-1, y-1);
+	*/
+		do {
+			command = iface.getXY();
+		}while(command[2] != 2);
+		
+		//TODO dorobiæ zeby przy fladze powtarzaæ
+		board.randomMines(command[0]-1, command[1]-1);
 		board.fillFields();
-		result = board.checkField(x-1, y-1);
+		result = board.checkField(command[0]-1, command[1]-1);
 		iface.drawBoard(board);
 		
 		while(result == 0) {
-			println("Enter X");
+		/*	println("Enter X");
 			x = scanner.nextInt();
 			println("Enter Y");
 			y = scanner.nextInt();
-			result = board.checkField(x-1, y-1);
-			if(result == 0) {
-				result = board.checkWin();
+			*/
+			
+			do {
+				command = iface.getXY();
+			}while(command[2] == 0);
+			
+			if(command[2]==2) {
+				result = board.checkField(command[0]-1, command[1]-1);
+				if(result == 0) {
+					result = board.checkWin();
+				}
 			}
+			else if(command[2]==1)
+				board.flagField(command[0]-1, command[1]-1);
+			
+			
 			println("-----------");
 			iface.drawBoard(board);
 			println("-----------");
