@@ -13,11 +13,7 @@ public class Board {
 	private int fieldsCount;
 	private Field[][] fields;
 	List<Integer[]> minesArray = new ArrayList<>();
-	
-	public int checkField(int x, int y, int value) {
-		return 1;
-	}
-	
+		
 	public Board(int x, int y, int mines) {
 		System.out.println("Board initialization");
 		//TODO sprawdzic czy nieujemne, dodac max range
@@ -37,6 +33,7 @@ public class Board {
 			
 		
 	}
+	
 	public void randomMines(int startFieldX, int startFieldY) {
 		int temp;
 		Integer[] mineXY = new Integer[2];
@@ -58,8 +55,8 @@ public class Board {
 				//System.out.println("fillMines: generated mine position " + mineXY[0] + "." + mineXY[1]);
 			}		
 		}
-		
 	}
+	
 	public void createFields() {
 		for(int y = 0; y < sizeY; y++) {
 			for(int x = 0; x < sizeX; x++) {
@@ -85,21 +82,7 @@ public class Board {
 			}
 		}
 	}
-	
-	public void printBoardTest() {
-		int temp;
-		for(int y = 0; y < sizeY; y++) {
-			for(int x = 0; x < sizeX; x++) {
-				temp = fields[x][y].getValue();
-				if(temp != -1)
-					System.out.print(temp + "\t");
-				else
-					System.out.print("!\t");
-			}
-			System.out.print("\n");
-		}
-	}
-	
+		
 	public void flagField(int x, int y) {
 		fields[x][y].setFlag();
 	}
@@ -130,6 +113,14 @@ public class Board {
 		return 1;
 	}
 	
+	public void checkBoard() {
+		for(int y = 0; y < sizeY; y++) {
+			for(int x = 0; x < sizeX; x++) {
+				fields[x][y].checkField();
+			}
+		}
+	}
+	
 	public int getFieldValue(int x, int y)
 	{
 		return fields[x][y].getValue();
@@ -152,6 +143,7 @@ public class Board {
 	public int getSizeY() {
 		return sizeY;
 	}
+	
 	private void checkZeros() {
 		boolean repeat;
 		do {

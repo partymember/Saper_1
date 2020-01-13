@@ -4,11 +4,14 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 public class SaperTextInterface implements SaperInterface {
+	
 	static final String checkCommand = new String("check");
 	static final String flagCommand = new String("flag");
+	
 	Scanner scanner;
 	Pattern pattern;
 	Matcher matcher;
+	
 	@Override
 	public void initialize() {
 		scanner = new Scanner(System.in);
@@ -97,11 +100,40 @@ public class SaperTextInterface implements SaperInterface {
 		}
 		println("---------------------------------------------------");
 	}
+	
+	@Override
+	public void updateBoard(Board board) {
+		int temp;
+		println("---------------------------------------------------");
+		for(int y = 0; y < board.getSizeX(); y++) {
+			for(int x = 0; x < board.getSizeY(); x++) {
+				if(board.getFieldChecked(x, y)) {
+					temp = board.getFieldValue(x,y);
+					if(temp != -1)
+						System.out.print(temp + "\t");
+					else
+						System.out.print("!\t");
+				}
+				else if(board.getFieldFlag(x, y)) {
+					System.out.print("f\t");
+				}
+				else {
+					System.out.print("x\t");
+				}
+			}
+			System.out.print("\n");
+		}
+		println("---------------------------------------------------");
+	}
 
 	@Override
+	public void sendMessage(String message) {
+		System.out.println(message);
+	}
+	
+	@Override
 	public void sendMessage(int message) {
-		// TODO Auto-generated method stub
-
+		// TODO Implement if necessary
 	}
 	
 	@Override

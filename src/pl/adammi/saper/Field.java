@@ -1,9 +1,6 @@
 package pl.adammi.saper;
 
 public class Field {
-
-//	private int neighboursCount=0;
-	
 	// -1 mine, positive mines count
 	private int value;
 	private boolean checked;
@@ -13,11 +10,6 @@ public class Field {
 		checked = false;
 		value = 0;
 		flag  = false;
-	}
-	public Field(int value) {
-		checked = false;
-		this.value  = value;
-		flag = false;
 	}
 	
 	public void setField(int val) {
@@ -29,12 +21,15 @@ public class Field {
 		checked = true;
 		return value;
 	}
+	
 	public void setFlag() {
 		flag = !flag;
 	}
+	
 	public void setCheck() {
 		checked = true;
 	}
+	
 	public boolean isFlag() {
 		return flag;
 	}
